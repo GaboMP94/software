@@ -65,6 +65,37 @@
         });
     </script>
 
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita el envío del formulario
+
+        const correo = document.getElementById("correo").value;
+        const password = document.getElementById("password").value;
+
+        // Realizar la petición AJAX
+        fetch('signin.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ correo, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                ToastMaker(data.message, 3000, { type: 'success', position: 'top-right' });
+                setTimeout(() => {
+                    window.location.href = 'dashboard.php'; // Redirigir al dashboard
+                }, 1000);
+            } else {
+                ToastMaker(data.message, 3000, { type: 'error', position: 'top-right' });
+            }
+        })
+        .catch(error => {
+            ToastMaker('Ocurrió un error inesperado.', 3000, { type: 'error', position: 'top-right' });
+        });
+    });
+</script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
