@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+    <!-- Incluir el archivo de encabezado -->
+    <?php include_once("head.php"); ?>
 </head>
 <body>
-	
+    <!-- Aquí puedes agregar contenido de la página -->
 </body>
 </html>
