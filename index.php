@@ -40,43 +40,77 @@
             togglePassword.textContent = type === 'password' ? '🙈' : '🙉';
         });
 
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); 
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault(); 
 
-            const correo = document.getElementById("correo").value.trim();
-            const password = document.getElementById("password").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-            if (!correo || !password) {
-                ToastMaker('Todos los campos son obligatorios.', 3000, {
-                    type: 'error',
+    if (!correo || !password) {
+        ToastMaker('Todos los campos son obligatorios.', 3000, {
+            type: 'error',
+            position: 'top-right',
+            styles: {
+                backgroundColor: 'red',
+                color: 'white',
+                fontSize: '20px',
+                padding: '10px',
+                borderRadius: '5px',
+                opacity: '0.8'
+            },
+            classList: ['toast-slide-in'] // Animación de entrada
+        });
+    } else {
+        fetch('signin.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ correo, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                ToastMaker(data.message, 3000, { 
+                    type: 'success', 
+                    position: 'top-right',
+                    classList: ['toast-slide-in'] // Animación de entrada
+                });
+                setTimeout(() => {
+                    window.location.href = 'dashboard.php';
+                }, 1000);
+            } else {
+                ToastMaker(data.message, 3000, { 
+                    type: 'error', 
                     position: 'top-right',
                     styles: {
                         backgroundColor: 'red',
-                        fontSize: '20px'
-                    }
-                });
-            } else {
-                fetch('signin.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ correo, password })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        ToastMaker(data.message, 3000, { type: 'success', position: 'top-right' });
-                        setTimeout(() => {
-                            window.location.href = 'dashboard.php';
-                        }, 1000);
-                    } else {
-                        ToastMaker(data.message, 3000, { type: 'error', position: 'top-right' });
-                    }
-                })
-                .catch(() => {
-                    ToastMaker('Ocurrió un error inesperado.', 3000, { type: 'error', position: 'top-right' });
+                        color: 'white',
+                        fontSize: '20px',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        opacity: '0.8'
+                    },
+                    classList: ['toast-slide-in'] // Animación de entrada
                 });
             }
+        })
+        .catch(() => {
+            ToastMaker('Ocurrió un error inesperado.', 3000, { 
+                type: 'error', 
+                position: 'top-right',
+                styles: {
+                    backgroundColor: 'red',
+                    color: 'white',
+                    fontSize: '20px',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    opacity: '0.8'
+                },
+                classList: ['toast-slide-in'] // Animación de entrada
+            });
         });
+    }
+});
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

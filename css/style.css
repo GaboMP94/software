@@ -1,0 +1,31 @@
+    /* Animación para la entrada del toast (slide-in desde abajo) */
+    .toast-slide-in {
+        animation: slideIn 0.5s ease-out;
+    }
+
+    /* Animación para la salida del toast (fade-out) */
+    .toast-fade-out {
+        animation: fadeOut 0.5s ease-out forwards;
+    }
+
+    /* Deslizar desde abajo */
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Desvanecimiento */
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
