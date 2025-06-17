@@ -5,8 +5,6 @@ funcionarios_bp = Blueprint('funcionarios', __name__)
 
 @funcionarios_bp.route('/funcionarios', methods=['GET'])
 def listar_funcionarios():
-    conn = None  # Declarar antes del try
-
     try:
         conn = get_connection()
         with conn.cursor() as cursor:
@@ -16,5 +14,7 @@ def listar_funcionarios():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
     finally:
-        if conn:  # ✅ Solo cerrar si existe
+        try:
             conn.close()
+        except:
+            pass  # ignora si conn nunca fue definido
