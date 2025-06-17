@@ -1,5 +1,3 @@
-# funcionarios.py
-
 from flask import Blueprint, jsonify
 from db import get_connection
 
@@ -7,6 +5,8 @@ funcionarios_bp = Blueprint('funcionarios', __name__)
 
 @funcionarios_bp.route('/funcionarios', methods=['GET'])
 def listar_funcionarios():
+    conn = None  # Declarar antes del try
+
     try:
         conn = get_connection()
         with conn.cursor() as cursor:
@@ -16,4 +16,5 @@ def listar_funcionarios():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
     finally:
-        conn.close()
+        if conn:  # ✅ Solo cerrar si existe
+            conn.close()
